@@ -1,0 +1,36 @@
+# 如果闪退 删除 C:\Users\11923\labelImgSettings.pkl
+
+# 添加按钮 从这开始  change_save_dir = action(get_str('changeSaveDir'), self.change_save_dir_dialog,
+                                 'Ctrl+r', 'open', get_str('changeSavedAnnotationDir'))
+self.change_save_dir_dialog 函数
+
+# self.load_labels 绘制标签
+C:\Users\11923\PycharmProjects\module_shared\ultralytics-main\datasets\bvn\images\train
+C:\Users\11923\PycharmProjects\module_shared\ultralytics-main\datasets\bvn\labels\train
+
+# 如何断点重续
+打开\venv\Lib\site-packages\labelImg\labelImg.py 文件
+在labelimg文件1252行 self.default_save_dir = dir_path 下面加入以下代码
+
+        if dir_path is not None and len(dir_path) > 1:
+            self.default_save_dir = dir_path
+
+        # 加入以下代码
+        files = os.listdir(dir_path)
+        # 判断是否存在名为 class.txt 的文件
+        if "classes.txt" in files:
+            self.label_hist.clear()  # 不清空继续打开其他标注文件不会删除原来的
+            with open(dir_path + "/classes.txt", 'r') as f:
+                for line in f.readlines():
+                    line = line.strip()
+                    if self.label_hist is None:
+                        self.label_hist = [line]
+                    else:
+                        self.label_hist.append(line)
+
+# lib.shape    generate_color_by_text
+改box线的颜色
+
+# lib.shape
+point_size 四个角大小
+改box四个角和label大小
